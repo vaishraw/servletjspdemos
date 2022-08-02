@@ -10,7 +10,20 @@ public static void main(String[] args) {
          readfromDB();
 		//insertIntoDB();
 		//updateIntoDB();
+       //deleteIntoDB();
 	}
+private static void deleteIntoDB() {
+	// TODO Auto-generated method stub
+	try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "1234");
+			Statement	statement = connection.createStatement();) {
+			
+			int rowsDeleted = statement.executeUpdate("delete from account where accno=1;");
+			System.out.println("Number of rows Deleted: "+rowsDeleted);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	
+}
 private static void updateIntoDB() {
 	// TODO Auto-generated method stub
 	try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "1234");
