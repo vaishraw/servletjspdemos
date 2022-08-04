@@ -5,9 +5,10 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,14 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AddUserServlet
+ * Servlet implementation class LoginServlet
  */
-@WebServlet("/updateServlet")
-public class UpdateServlet extends HttpServlet {
+@WebServlet("/loginServlet")
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Connection connection;
-
-	@Override
 	public void init(ServletConfig config) throws ServletException {
 		try {
 			ServletContext context = config.getServletContext();
@@ -40,32 +39,34 @@ public class UpdateServlet extends HttpServlet {
 		}
 
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.setContentType("text/html");
-		String email = request.getParameter("email");
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-
-		try (PreparedStatement statement = connection.prepareStatement("update user set password=? where email= ?")) {
-			statement.setString(1, password);
-			statement.setString(2, email);
-
-			// String query="update user set password='" +password+"' where
-			// email='"+email+"'";
-			// System.out.println("Query Being Executed: "+query);
-			int rowsUpdated = statement.executeUpdate();
-			System.out.println("Number of rows Inserted: " + rowsUpdated);
-			PrintWriter pw = response.getWriter();
-			pw.write("User Successfully Updated");
-			pw.println("<p><a href=\"userhome.html\">Home</a></p>");
+		try (PreparedStatement statement = connection.prepareStatement("select * from user where email = ? and password = ?")) {
+			statement.setString(1, username);
+			statement.setString(2, password);
+			ResultSet results=statement.executeQuery();
+			if(results.next()) {
+				RequestDispatcher rd = request.getRequestDispatcher("homeServlet");
+				request.setAttribute("message", "User Authenticated. Welcome to InterServlet Communication");
+				rd.forward(request, response);
+			}
+			else {
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html");
+				out.println("Login Failed");
+				
+				RequestDispatcher rd = request.getRequestDispatcher("login.html");
+				rd.include(request, response);
+			}
+			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
-	@Override
+	
 	public void destroy() {
 		try {
 			System.out.println("Inside Add user Servlet destroy() method connection destroyed");
