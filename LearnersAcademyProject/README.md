@@ -28,3 +28,13 @@ Technologies and tools Used
 • Eclipse: to write and run the code.
 
 • Tomcat: to run and deploy servlet application.
+
+How to run the program
+
+• clone project
+
+• Go to “src/main/webapp/WEB-INF/Classes/hibernate.cfg.xml file and open it.
+
+•Edit the database’ properties such as username, password and driverClassName to be suit to your database administration tool.
+
+• Now run program on a server.
