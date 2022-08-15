@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Add Teacher</title>
 </head>
 <body>
-<h1>Student Registration</h1>
-	<form action="studentControllerServlet" method="post">
+<h1>Add Teacher</h1>
+	<form action="teachers" method="post">
 		<table>
 			<tr>
 				<td>First Name: </td>
@@ -15,18 +15,25 @@
 			<tr>
 				<td>Last Name: </td>
 				<td><input name="lastname" /></td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>EmailID: </td>
-				<td><input  name="email" /></td>
+				<td><input  name="email"/></td>
+				
+			</tr>			
+			<tr>
+				<td>Age: </td>
+				<td><input type="number" name="age" /></td>
 			</tr>
 			
+
 			<tr>
 				<td />
 				<td><input type="submit" value="Add"/></td>
 			</tr>
 		</table>
 	</form>
+
 
 </body>
 </html>

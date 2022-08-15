@@ -1,5 +1,6 @@
 package com.samples.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Student {
 	private String registrationId;
 	private String name;
 
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.PERSIST,CascadeType.REMOVE})
 	@JoinColumn(name = "Guide_ID")
 	private Guide guide;
 
